@@ -29,7 +29,8 @@
 				}
 		 ],
 		 "class-methods-use-this": "off",
-		 "import/prefer-default-export": "off"
+		 "import/prefer-default-export": "off",
+		 "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"]
     },
 		"settings": {
 			"import/resolver": {
