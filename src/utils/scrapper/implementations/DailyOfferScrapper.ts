@@ -20,6 +20,7 @@ class DailyOfferScrapper extends ScrapperAbstract {
       productTitleElement: 'DealContent-module__truncate_sWbxETx42ZPStTc9jwySW',
       productPriceElement: 'a-price-whole',
       productImageElement: 'img',
+      productLinkElement: 'a-link-normal',
     };
   }
 

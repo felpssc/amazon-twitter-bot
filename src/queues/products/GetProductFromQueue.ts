@@ -2,29 +2,31 @@
 import amqplib, { Connection } from 'amqplib';
 import { Product } from '../../entities/Product';
 
-class SendProductToQueue {
+class GetProductFromQueue {
   private queue: string;
 
   constructor(queue: string) {
     this.queue = queue;
   }
 
-  async execute(product: Product) {
+  async execute(): Promise<Product | null> {
     const connection = await this.createConnection();
 
     const channel = await connection.createChannel();
 
-    channel.assertQueue(this.queue, { durable: true });
+    const message = await channel.get(this.queue);
 
-    channel.sendToQueue(this.queue, Buffer.from(JSON.stringify(product)));
+    if (!message) {
+      return null;
+    }
+
+    channel.ack(message);
+
+    const product = JSON.parse(message.content.toString());
 
     await this.closeConnection(connection);
-  }
 
-  async closeConnection(connection: Connection) {
-    setTimeout(async () => {
-      await connection.close();
-    }, 500);
+    return product;
   }
 
   async createConnection() {
@@ -32,6 +34,12 @@ class SendProductToQueue {
 
     return connection;
   }
+
+  async closeConnection(connection: Connection) {
+    setTimeout(async () => {
+      await connection.close();
+    }, 500);
+  }
 }
 
-export { SendProductToQueue };
+export { GetProductFromQueue };

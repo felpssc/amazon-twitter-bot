@@ -2,7 +2,8 @@ interface ICreateProduct {
   title: string;
   price: string;
   wasPrice: string;
-  productImage: string;
+  image: string;
+  link: string;
 }
 
 class Product {
@@ -12,15 +13,18 @@ class Product {
 
   wasPrice: string;
 
-  productImage: string;
+  image: string;
+
+  link: string;
 
   constructor({
-    title, price, wasPrice, productImage,
+    title, price, wasPrice, image, link,
   }: ICreateProduct) {
     this.title = title;
     this.price = price;
     this.wasPrice = wasPrice;
-    this.productImage = productImage;
+    this.image = image;
+    this.link = link;
   }
 }
 

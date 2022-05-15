@@ -17,8 +17,6 @@ class SendProductsToQueue {
     for await (const product of products) {
       await this.sendProductQueue.execute(product);
     }
-
-    // await this.sendProductQueue.close(); => Is it necessary?
   }
 }
 
