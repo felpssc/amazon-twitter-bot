@@ -1,37 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import amqplib, { Channel, Connection } from 'amqplib';
+import amqplib, { Connection } from 'amqplib';
 import { Product } from '../../entities/Product';
 
 class SendProductToQueue {
   private queue: string;
 
-  private connection: Connection | any;
-
-  private channel: Channel | any;
-
   constructor(queue: string) {
     this.queue = queue;
-    this.connection = null;
-    this.channel = null;
-    this.createConnection();
   }
 
   async execute(product: Product) {
-    this.channel.assertQueue(this.queue, { durable: true });
+    const connection = await this.createConnection();
 
-    this.channel.sendToQueue(this.queue, Buffer.from(JSON.stringify(product)));
+    const channel = await connection.createChannel();
+
+    channel.assertQueue(this.queue, { durable: true });
+
+    channel.sendToQueue(this.queue, Buffer.from(JSON.stringify(product)));
+
+    await this.closeConnection(connection);
   }
 
-  async close() {
+  async closeConnection(connection: Connection) {
     setTimeout(async () => {
-      await this.channel.close();
-      await this.connection.close();
-    }, 1000);
+      await connection.close();
+    }, 500);
   }
 
   async createConnection() {
-    this.connection = await amqplib.connect('amqp://localhost');
-    this.channel = await this.connection.createChannel();
+    const connection = await amqplib.connect('amqp://localhost');
+
+    return connection;
   }
 }
 
