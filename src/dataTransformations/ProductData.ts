@@ -13,13 +13,15 @@ class ProductData {
       const title = $(product).find(`div.${defaultElements.productTitleElement}`).text();
       const price = $(product).find(`.${defaultElements.productPriceElement}`).first().text();
       const wasPrice = $(product).find(`.${defaultElements.productPriceElement}`).last().text();
-      const productImage = $(product).find(defaultElements.productImageElement).attr('src');
+      const image = $(product).find(defaultElements.productImageElement).attr('src');
+      const link = $(product).find(`.${defaultElements.productLinkElement}`).first().attr('href');
 
       return new Product({
         title,
         price,
         wasPrice,
-        productImage: productImage as string,
+        image: image as string,
+        link: link as string,
       });
     }).toArray().filter((product) => product.price);
 
