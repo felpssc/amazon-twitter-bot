@@ -20,6 +20,14 @@ class SendProductsToQueue {
       for await (const product of products) {
         await this.sendProductQueue.execute(product);
       }
+
+      Sentry.captureMessage(`Sent ${products.length} new products to queue`, {
+        contexts: {
+          context: {
+            products,
+          },
+        },
+      });
     } catch (error) {
       Sentry.captureException(error);
     }
