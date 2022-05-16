@@ -1,23 +1,20 @@
-import { scheduleJob, RecurrenceRule } from 'node-schedule';
+import { scheduleJob } from 'node-schedule';
 import { SendProductsToQueue } from './automations/SendProductsToQueue';
 import { TweetOffer } from './automations/TweetOffer';
 
-const sendDailyOffersToQueueJobTime = new RecurrenceRule();
-sendDailyOffersToQueueJobTime.hour = 0;
-
-const tweetOfferJobTime = new RecurrenceRule();
-tweetOfferJobTime.minute = 20;
+const runEveryDayAtMidnight = '0 0 * * *';
+const runEvery30Minutes = '*/30 * * * *';
 
 (async () => {
   const sendProductsToQueue = new SendProductsToQueue();
 
-  scheduleJob(sendDailyOffersToQueueJobTime, async () => {
+  scheduleJob(runEveryDayAtMidnight, async () => {
     await sendProductsToQueue.execute();
   });
 
   const tweetOffer = new TweetOffer();
 
-  scheduleJob(tweetOfferJobTime, async () => {
+  scheduleJob(runEvery30Minutes, async () => {
     await tweetOffer.execute();
   });
 
