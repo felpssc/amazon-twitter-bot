@@ -1,6 +1,8 @@
 import { DailyOfferScrapper } from '../utils/scrapper/implementations/DailyOfferScrapper';
 import { SendProductToQueue } from '../queues/products/SendProductToQueue';
 
+import { Sentry } from '../monitoring/sentry';
+
 class SendProductsToQueue {
   private scrapper: DailyOfferScrapper;
 
@@ -12,10 +14,14 @@ class SendProductsToQueue {
   }
 
   async execute() {
-    const products = await this.scrapper.scraperPage();
+    try {
+      const products = await this.scrapper.scraperPage();
 
-    for await (const product of products) {
-      await this.sendProductQueue.execute(product);
+      for await (const product of products) {
+        await this.sendProductQueue.execute(product);
+      }
+    } catch (error) {
+      Sentry.captureException(error);
     }
   }
 }

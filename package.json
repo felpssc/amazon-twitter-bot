@@ -7,6 +7,8 @@
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/bot.ts"
   },
   "dependencies": {
+    "@sentry/node": "^6.19.7",
+    "@sentry/tracing": "^6.19.7",
     "amqplib": "^0.9.0",
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.10",

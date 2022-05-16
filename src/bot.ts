@@ -2,10 +2,14 @@ import { scheduleJob } from 'node-schedule';
 import { SendProductsToQueue } from './automations/SendProductsToQueue';
 import { TweetOffer } from './automations/TweetOffer';
 
+import { sentryMonitoring } from './monitoring/sentry';
+
 const runEveryDayAtMidnight = '0 0 * * *';
 const runEvery30Minutes = '*/30 * * * *';
 
 (async () => {
+  sentryMonitoring();
+
   const sendProductsToQueue = new SendProductsToQueue();
 
   scheduleJob(runEveryDayAtMidnight, async () => {
