@@ -7,6 +7,8 @@ import { TweetAProduct } from '../utils/twitter/implementations/TweetAProduct';
 
 import { SendProductToQueue } from '../queues/products/SendProductToQueue';
 
+import { Sentry } from '../monitoring/sentry';
+
 class TweetOffer {
   getProductFromQueue: GetProductFromQueue;
 
@@ -28,17 +30,43 @@ class TweetOffer {
     const product = await this.getProductFromQueue.execute();
 
     if (!product) {
+      Sentry.captureMessage('No product found in queue', {
+        contexts: {
+          context: {
+            date: new Date(),
+          },
+        },
+      });
       return;
     }
 
     try {
       await this.tweetAProduct.tweet({ product });
 
-      console.log(`Product tweeted successfully at ${new Date()}`, product);
+      Sentry.captureMessage('Product tweeted successfully', {
+        contexts: {
+          context: {
+            product,
+            date: new Date(),
+          },
+        },
+      });
     } catch (error) {
-      console.log('Error while trying to tweet a product', error);
+      Sentry.captureException(error, {
+        contexts: {
+          context: {
+            product,
+          },
+        },
+      });
 
-      console.log('Inserting product again in the queue', product);
+      Sentry.captureMessage('Sending product to queue again', {
+        contexts: {
+          context: {
+            product,
+          },
+        },
+      });
 
       await new SendProductToQueue('products-to-post').execute(product);
     }
