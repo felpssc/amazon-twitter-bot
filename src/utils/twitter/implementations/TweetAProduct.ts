@@ -30,9 +30,17 @@ class TweetAProduct {
   async tweet({ product }: IRequest) {
     const twitter = this.twitterClient.readWrite;
 
-    const status = `📢 Alerta de Oferta \n\n📦 ${product.title} \n\n💵 R$ ${product.price}\n\n🔗 ${product.link}`;
+    const {
+      title,
+      price,
+      wasPrice,
+      link,
+      image,
+    } = product;
 
-    const { data } = await axios.get(product.image, { responseType: 'arraybuffer' });
+    const status = `📢 Alerta de Oferta \n\n📦 ${title} \n\n💵 De R$ ${wasPrice} por R$ ${price} \n\n🔗 ${link}`;
+
+    const { data } = await axios.get(image, { responseType: 'arraybuffer' });
 
     const media = await twitter.v1.uploadMedia(data, { mimeType: 'image/jpg' });
 
