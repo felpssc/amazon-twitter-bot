@@ -1,12 +1,12 @@
 FROM node
 
-WORKDIR /user/app/
+WORKDIR /usr/app/
 
-COPY package.json /user/app/
+COPY package*.json ./
 
 RUN npm install
 
-COPY . /user/app/
+COPY . .
 
 EXPOSE 5672 15672
 
