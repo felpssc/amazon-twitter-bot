@@ -27,9 +27,7 @@ class DailyOfferScrapper extends ScrapperAbstract {
   async scraperPage(): Promise<Product[]> {
     const { gradeOfertasElement } = this.defaultElements;
 
-    const browser = await puppeteer.launch({
-      headless: false,
-    });
+    const browser = await puppeteer.launch();
 
     const page = await browser.newPage();
 
