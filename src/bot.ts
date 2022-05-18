@@ -5,7 +5,7 @@ import { TweetOffer } from './automations/TweetOffer';
 import { sentryMonitoring } from './monitoring/sentry';
 
 const runEveryDayAtMidnight = '0 0 * * *';
-const runEvery30Minutes = '*/30 * * * *';
+const runEvery30Minutes = '*/50 * * * *';
 
 (async () => {
   sentryMonitoring();
