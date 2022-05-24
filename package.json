@@ -4,13 +4,22 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/utils/scrapper/implementations/DailyOfferScrapper.ts"
+    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/bot.ts"
   },
   "dependencies": {
+    "@sentry/node": "^6.19.7",
+    "@sentry/tracing": "^6.19.7",
+    "amqplib": "^0.9.0",
+    "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.10",
-    "puppeteer": "^14.1.0"
+    "dotenv": "^16.0.1",
+    "node-schedule": "^2.1.0",
+    "puppeteer": "^14.1.0",
+    "twitter-api-v2": "^1.12.0"
   },
   "devDependencies": {
+    "@types/amqplib": "^0.8.2",
+    "@types/node-schedule": "^2.1.0",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
     "eslint": "^7.32.0 || ^8.2.0",

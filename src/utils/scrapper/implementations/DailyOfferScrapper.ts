@@ -20,6 +20,7 @@ class DailyOfferScrapper extends ScrapperAbstract {
       productTitleElement: 'DealContent-module__truncate_sWbxETx42ZPStTc9jwySW',
       productPriceElement: 'a-price-whole',
       productImageElement: 'img',
+      productLinkElement: 'a-link-normal',
     };
   }
 
@@ -27,7 +28,8 @@ class DailyOfferScrapper extends ScrapperAbstract {
     const { gradeOfertasElement } = this.defaultElements;
 
     const browser = await puppeteer.launch({
-      headless: false,
+      executablePath: process.env.CHROMIUM_PATH,
+      args: ['--no-sandbox'],
     });
 
     const page = await browser.newPage();
