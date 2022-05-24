@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/bot.ts"
+    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/bot.ts",
+    "start": "ts-node-dev ./src/bot.ts"
   },
   "dependencies": {
     "@sentry/node": "^6.19.7",
