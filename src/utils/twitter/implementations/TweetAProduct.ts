@@ -1,6 +1,7 @@
 import { TwitterApi } from 'twitter-api-v2';
 import axios from 'axios';
 import { Product } from '../../../entities/Product';
+import { tweetStatus } from '../../../helpers/tweetStatus.helper';
 
 interface IAuthParams {
   apiKey: string;
@@ -30,21 +31,16 @@ class TweetAProduct {
   async tweet({ product }: IRequest) {
     const twitter = this.twitterClient.readWrite;
 
-    const {
-      title,
-      price,
-      wasPrice,
-      link,
-      image,
-    } = product;
+    const status = tweetStatus(product);
 
-    const status = `📢 Alerta de Oferta \n\n📦 ${title} \n\n💵 De R$ ${wasPrice} por R$ ${price} \n\n🔗 ${link}`;
+    const { data } = await axios.get(product.image, { responseType: 'arraybuffer' });
 
-    const { data } = await axios.get(image, { responseType: 'arraybuffer' });
+    const images = [
+      await twitter.v1.uploadMedia(data, { mimeType: 'image/jpg' }),
+      await twitter.v1.uploadMedia(data, { mimeType: 'image/jpg' }),
+    ];
 
-    const media = await twitter.v1.uploadMedia(data, { mimeType: 'image/jpg' });
-
-    await twitter.v1.tweet(status, { media_ids: [media] });
+    await twitter.v1.tweet(status, { media_ids: images });
   }
 }
 
