@@ -3,7 +3,7 @@ import 'dotenv/config';
 
 import { GetProductFromQueue } from '../queues/products/GetProductFromQueue';
 
-import { TweetAProduct } from '../utils/twitter/implementations/TweetAProduct';
+import { TweetProduct } from '../services/tweetProduct/implementations/TweetAProduct';
 
 import { SendProductToQueue } from '../queues/products/SendProductToQueue';
 
@@ -12,7 +12,7 @@ import { Sentry } from '../monitoring/sentry';
 class TweetOffer {
   getProductFromQueue: GetProductFromQueue;
 
-  tweetAProduct: TweetAProduct;
+  tweetProduct: TweetProduct;
 
   authPayload = {
     apiKey: process.env.API_KEY as string,
@@ -22,8 +22,8 @@ class TweetOffer {
   };
 
   constructor() {
-    this.getProductFromQueue = new GetProductFromQueue('products-to-post');
-    this.tweetAProduct = new TweetAProduct(this.authPayload);
+    this.getProductFromQueue = new GetProductFromQueue(process.env.QUEUE_NAME as string);
+    this.tweetProduct = new TweetProduct(this.authPayload);
   }
 
   async execute() {
@@ -41,7 +41,7 @@ class TweetOffer {
     }
 
     try {
-      await this.tweetAProduct.tweet({ product });
+      await this.tweetProduct.tweet(product);
 
       Sentry.captureMessage('Product tweeted successfully', {
         contexts: {
@@ -68,7 +68,7 @@ class TweetOffer {
         },
       });
 
-      await new SendProductToQueue('products-to-post').execute(product);
+      await new SendProductToQueue(process.env.QUEUE_NAME as string).execute(product);
     }
   }
 }

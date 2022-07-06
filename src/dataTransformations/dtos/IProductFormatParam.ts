@@ -1,4 +1,4 @@
-import { IScrapElementDTO } from '../../utils/scrapper/dtos/IScrapElementDTO';
+import { IScrapElementDTO } from '../../services/productsScrapper/interfaces/IScrapElementDTO';
 
 interface IProductFormatParamDTO {
   productsHTML: string;
