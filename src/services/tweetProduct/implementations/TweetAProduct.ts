@@ -2,6 +2,7 @@ import { TwitterApi } from 'twitter-api-v2';
 import axios from 'axios';
 import { Product } from '../../../entities/Product';
 import { tweetStatus } from '../../../helpers/tweetStatus.helper';
+import { ITweetProduct } from '../ITweetProduct';
 
 interface IAuthParams {
   apiKey: string;
@@ -10,11 +11,7 @@ interface IAuthParams {
   accessTokenSecret: string;
 }
 
-interface IRequest {
-  product: Product
-}
-
-class TweetAProduct {
+class TweetProduct implements ITweetProduct {
   private twitterClient: TwitterApi;
 
   constructor({
@@ -28,7 +25,7 @@ class TweetAProduct {
     });
   }
 
-  async tweet({ product }: IRequest) {
+  async tweet(product: Product): Promise<void> {
     const twitter = this.twitterClient.readWrite;
 
     const status = tweetStatus(product);
@@ -44,4 +41,4 @@ class TweetAProduct {
   }
 }
 
-export { TweetAProduct };
+export { TweetProduct };

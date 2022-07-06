@@ -4,16 +4,16 @@ import puppeteer from 'puppeteer';
 
 import { ProductData } from '../../../dataTransformations/ProductData';
 import { Product } from '../../../entities/Product';
-import { IScrapElementDTO } from '../dtos/IScrapElementDTO';
-import { ScrapperAbstract } from '../ScrapperAbstract';
+import { IScrapElements } from '../interfaces/IScrapElements';
+import { IProductsScrapper } from '../IProductsScrapper';
 
-class DailyOfferScrapper extends ScrapperAbstract {
-  private defaultElements: IScrapElementDTO;
+class DailyOfferScrapper implements IProductsScrapper {
+  private defaultElements: IScrapElements;
 
-  constructor() {
-    super({
-      url: 'https://www.amazon.com.br/deals?ref_=nav_cs_gb',
-    });
+  private url: string;
+
+  constructor(url: string) {
+    this.url = url;
 
     this.defaultElements = {
       gradeOfertasElement: 'Grid-module__grid_1-xkdMK87Hfx0wjqVxAGcI',
@@ -24,7 +24,7 @@ class DailyOfferScrapper extends ScrapperAbstract {
     };
   }
 
-  async scraperPage(): Promise<Product[]> {
+  async scrapePage(): Promise<Product[]> {
     const { gradeOfertasElement } = this.defaultElements;
 
     const browser = await puppeteer.launch({

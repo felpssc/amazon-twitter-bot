@@ -1,4 +1,4 @@
-interface IScrapElementDTO {
+interface IScrapElements {
     gradeOfertasElement: string;
     productTitleElement: string;
     productPriceElement: string;
@@ -6,4 +6,4 @@ interface IScrapElementDTO {
     productLinkElement: string;
 }
 
-export { IScrapElementDTO };
+export { IScrapElements };
