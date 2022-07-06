@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { load } from 'cheerio';
 
 import puppeteer from 'puppeteer';

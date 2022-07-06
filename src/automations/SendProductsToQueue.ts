@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { DailyOfferScrapper } from '../services/productsScrapper/implementations/DailyOfferScrapper';
 import { SendProductToQueue } from '../queues/products/SendProductToQueue';
 
