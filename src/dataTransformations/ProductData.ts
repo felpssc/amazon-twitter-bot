@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { load } from 'cheerio';
 import { Product } from '../entities/Product';
-import { IProductFormatParamDTO } from './dtos/IProductFormatParam';
+import { IProductFormatParam } from './interfaces/IProductFormatParam';
 
 class ProductData {
-  public format({ productsHTML, defaultElements }: IProductFormatParamDTO): Product[] {
+  public format({ productsHTML, defaultElements }: IProductFormatParam): Product[] {
     const $ = load(productsHTML);
 
     const products = $.root().find('body').children().map((_, product) => product);

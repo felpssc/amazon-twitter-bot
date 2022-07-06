@@ -4,11 +4,11 @@ import puppeteer from 'puppeteer';
 
 import { ProductData } from '../../../dataTransformations/ProductData';
 import { Product } from '../../../entities/Product';
-import { IScrapElementDTO } from '../interfaces/IScrapElementDTO';
+import { IScrapElements } from '../interfaces/IScrapElements';
 import { IProductsScrapper } from '../IProductsScrapper';
 
 class DailyOfferScrapper implements IProductsScrapper {
-  private defaultElements: IScrapElementDTO;
+  private defaultElements: IScrapElements;
 
   private url: string;
 
