@@ -5,6 +5,8 @@ services:
     build: .
     container_name: bot
     network_mode: "host"
+    depends_on:
+      - rabbitmq
   rabbitmq:
     image: rabbitmq:3.8-management-alpine
     container_name: rabbitmq
