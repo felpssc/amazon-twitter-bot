@@ -1,10 +1,13 @@
+/* eslint-disable no-console */
 import { TweetOffer } from '../automations/TweetOffer';
 
 const tweetProduct = new TweetOffer();
 
 (async () => {
-  const result = await tweetProduct.execute();
-
-  // eslint-disable-next-line no-console
-  console.log(result);
+  try {
+    await tweetProduct.execute();
+    console.log('Successfully tweeted product');
+  } catch (error) {
+    console.log(error);
+  }
 })();
