@@ -17,6 +17,8 @@ class Product {
 
   link: string;
 
+  attempts: number;
+
   constructor({
     title, price, wasPrice, image, link,
   }: ICreateProduct) {
@@ -25,6 +27,7 @@ class Product {
     this.wasPrice = wasPrice;
     this.image = image;
     this.link = link;
+    this.attempts = 0;
   }
 }
 

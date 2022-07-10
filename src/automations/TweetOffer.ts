@@ -27,6 +27,8 @@ class TweetOffer {
   }
 
   async execute() {
+    const MAX_ATTEMPTS = 2;
+
     const product = await this.getProductFromQueue.execute();
 
     if (!product) {
@@ -52,6 +54,20 @@ class TweetOffer {
         },
       });
     } catch (error) {
+      if (product.attempts > MAX_ATTEMPTS) {
+        Sentry.captureMessage('Product could not be tweeted', {
+          contexts: {
+            context: {
+              product,
+              date: new Date(),
+            },
+          },
+        });
+        return;
+      }
+
+      product.attempts += 1;
+
       Sentry.captureException(error, {
         contexts: {
           context: {
