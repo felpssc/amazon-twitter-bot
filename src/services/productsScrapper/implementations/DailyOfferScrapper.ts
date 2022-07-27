@@ -17,7 +17,7 @@ class DailyOfferScrapper implements IProductsScrapper {
     this.url = url;
 
     this.defaultElements = {
-      gradeOfertasElement: 'Grid-module__gridDisplayGrid_2X7cDTY7pjoTwwvSRQbt9Y',
+      gradeOfertasElement: process.env.GRID_ELEMENTS as string,
       productTitleElement: 'DealContent-module__truncate_sWbxETx42ZPStTc9jwySW',
       productPriceElement: 'a-price-whole',
       productImageElement: 'img',
